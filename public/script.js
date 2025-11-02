@@ -252,4 +252,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load ---
     renderHistory(historyLimit);
+
+    // --- Pinterest Search Functionality ---
+    const pinterestSearchBtn = document.getElementById('pinterest-search-btn');
+    const pinterestQueryInput = document.getElementById('pinterest-query');
+    const pinterestResult = document.getElementById('pinterest-result');
+
+    if (pinterestSearchBtn && pinterestQueryInput && pinterestResult) {
+        async function handlePinterestSearch() {
+            const query = pinterestQueryInput.value;
+            if (!query) {
+                showResult(pinterestResult, 'Please enter a search query.', false);
+                return;
+            }
+            showLoading(pinterestResult);
+
+            try {
+                const response = await fetch('/pinterest/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query }),
+                });
+                const data = await response.json();
+
+                if (response.ok && data.status && data.result && data.result.pins) {
+                    renderPinterestResults(data.result.pins);
+                } else {
+                    showResult(pinterestResult, `Error: ${data.error || 'No results found.'}`, false);
+                }
+            } catch (error) {
+                showResult(pinterestResult, 'Search request failed.', false);
+            }
+        }
+
+        function renderPinterestResults(pins) {
+            pinterestResult.innerHTML = '';
+            pinterestResult.classList.add('visible');
+            const grid = document.createElement('div');
+            grid.className = 'pinterest-grid';
+
+            if (pins.length === 0) {
+                pinterestResult.innerHTML = '<p>No results found for your query.</p>';
+                return;
+            }
+
+            pins.forEach(pin => {
+                const item = document.createElement('div');
+                item.className = 'pinterest-item';
+
+                const img = document.createElement('img');
+                img.src = pin.media.images.large.url;
+                img.alt = pin.title || 'Pinterest Image';
+
+                const overlay = document.createElement('div');
+                overlay.className = 'pinterest-item-overlay';
+
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-url-btn';
+                copyButton.innerHTML = '<span>Copy URL</span>';
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText(pin.media.images.orig.url);
+                    copyButton.innerHTML = '<span>Copied!</span>';
+                    setTimeout(() => { copyButton.innerHTML = '<span>Copy URL</span>'; }, 1500);
+                };
+
+                overlay.appendChild(copyButton);
+                item.appendChild(img);
+                item.appendChild(overlay);
+                grid.appendChild(item);
+            });
+            pinterestResult.appendChild(grid);
+        }
+
+        pinterestSearchBtn.addEventListener('click', handlePinterestSearch);
+
+        pinterestQueryInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                handlePinterestSearch();
+            }
+        });
+    }
 });

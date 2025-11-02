@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title><%= config.siteName %></title>
+    <title>Pinterest Search</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -36,76 +36,32 @@
 
         <main class="tool-tabs">
             <div class="tab-buttons">
-                <button id="cdnBtn" class="tab-btn active">
+                <a href="/" class="tab-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                     CDN
-                </button>
-                <button id="shortUrlBtn" class="tab-btn">
+                </a>
+                <a href="/" class="tab-btn">
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"/></svg>
                     ShortURL
+                </a>
+                <button id="pinterestBtn" class="tab-btn active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"/></svg>
+                    Pinterest
                 </button>
             </div>
 
-            <div id="cdn-section" class="tool-section active">
-                <p class="tool-description">Supports all mimetypes, from images to executables.</p>
-                <div id="drop-zone" class="drop-zone">
-                    <div class="drop-zone-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
-                    </div>
-                    <p class="drop-zone-text"><span>Click to upload</span> or drag and drop</p>
-                    <p class="drop-zone-subtext">Max file size: 100MB</p>
-                    <input type="file" id="file-input" style="display: none;">
-                </div>
-                <div id="cdn-result" class="result-area"></div>
-            </div>
-
-            <div id="shorturl-section" class="tool-section">
-                <p class="tool-description">Enter a long URL to make it short. Custom code is optional.</p>
+            <div id="pinterest-section" class="tool-section active">
+                <p class="tool-description">Search for pins on Pinterest.</p>
                 <div class="input-group">
-                    <input type="text" id="long-url" placeholder="https://example.com/very/long/url/to/shorten">
-                    <input type="text" id="custom-code" placeholder="Custom code (optional)">
+                    <input type="text" id="pinterest-query" placeholder="Search for anything...">
                 </div>
-                <button id="shorten-btn" class="action-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 5-6 6"></path><path d="m13 5 4 4"></path><path d="m3 21 6-6"></path><path d="m14 14 4 4"></path><path d="m21 3-6 6"></path></svg>
-                    <span>Shorten URL</span>
+                <button id="pinterest-search-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+                    <span>Search</span>
                 </button>
-                <div id="shorturl-result" class="result-area"></div>
+                <div id="pinterest-result" class="result-area"></div>
             </div>
         </main>
-
-        <section class="donation-section">
-            <h4>Support The Creator</h4>
-            <div class="input-group">
-                <input type="number" id="donation-amount" placeholder="Amount (e.g., 10000)" min="1000">
-                <button id="donate-btn" class="action-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                    <span>Donate</span>
-                </button>
-            </div>
-        </section>
-
-        <section class="history-section">
-            <h4>Activity History</h4>
-            <div id="history-list" class="history-list"></div>
-            <button id="history-more" class="more-btn">View All</button>
-        </section>
-    </div>
-
-    <div id="qris-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <button id="modal-close-btn" class="modal-close">&times;</button>
-            <h3>Scan to Donate</h3>
-            <div class="qris-container">
-                <img id="qris-image" src="" alt="QRIS Code">
-                <div id="qris-loader" class="loader" style="display: none;"></div>
-            </div>
-            <p>Amount: <strong id="qris-amount"></strong></p>
-            <p>This QRIS will expire in <strong id="qris-timer">60</strong> seconds.</p>
-            <a id="qris-download-btn" href="#" download="qris-donation.jpg" class="action-btn download-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                <span>Download QRIS</span>
-            </a>
-        </div>
     </div>
 
     <script src="/script.js"></script>
