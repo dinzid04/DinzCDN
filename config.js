@@ -1,8 +1,8 @@
 module.exports = {
   siteName: "DinzSite",
   authorName: "DinzID",
-  profilePicture: "https://cdn.nefyu.my.id/csy1.jpg",
-  profileBanner: "https://cdn.nefyu.my.id/cgxl.png",
+  profilePicture: "https://cdn.dinzid.biz.id/j6Mc.jpg",
+  profileBanner: "https://cdn.dinzid.biz.id/VTjD.jpg",
   aboutText: "A personal project for file hosting and URL shortening, built with simplicity and efficiency in mind.",
-  backgroundImage: "https://cdn.nefyu.my.id/1lsq.webp"
+  backgroundImage: "https://cdn.dinzid.biz.id/sWZj.jpg"
 };
