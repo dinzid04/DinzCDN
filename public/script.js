@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
+    const mainContainer = document.querySelector('.main-container');
     const cdnBtn = document.getElementById('cdnBtn');
     const shortUrlBtn = document.getElementById('shortUrlBtn');
     const cdnSection = document.getElementById('cdn-section');
@@ -30,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const HISTORY_KEY = 'activityHistory';
     let qrisTimerInterval;
 
+    const notificationIcon = document.getElementById('notification-icon');
+    notificationIcon.addEventListener('click', () => {
+        alert('No new notifications.');
+    });
 
     // --- Tab Switching ---
     function switchTab(tabToShow, buttonToActivate) {
@@ -224,8 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 const data = await response.json();
-                qrisImage.src = data.data.qris_url;
-                qrisDownloadBtn.href = data.data.qris_url;
+                const imageUrl = data.data.qris_url;
+                const imageResponse = await fetch(imageUrl);
+                const imageBlob = await imageResponse.blob();
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64data = reader.result;
+                    qrisImage.src = base64data;
+                    qrisDownloadBtn.href = base64data;
+                };
+                reader.readAsDataURL(imageBlob);
                 qrisAmount.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.data.amount);
                 qrisLoader.style.display = 'none';
                 qrisImage.style.display = 'block';

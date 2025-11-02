@@ -1,0 +1,113 @@
+body.comic-style {
+    --comic-font: 'Bangers', cursive;
+    --comic-border: 2px solid #000 !important;
+    --comic-shadow: 5px 5px 0 #000 !important;
+}
+
+.comic-style .main-container {
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+    border-radius: 0 !important;
+}
+
+.comic-style .profile-header,
+.comic-style .tool-tabs,
+.comic-style .donation-section,
+.comic-style .history-section {
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+.comic-style .profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comic-style .profile-text {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.comic-style .notification-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.comic-style .notification-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.comic-style .hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.comic-style .hero-content {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+}
+
+.comic-style .hero-title {
+    font-family: var(--comic-font) !important;
+    font-size: 4rem !important;
+    margin-bottom: 20px;
+}
+
+.comic-style .hero-subtitle {
+    font-size: 1.5rem !important;
+    margin-bottom: 30px;
+}
+
+.comic-style .action-btn,
+.comic-style .header-btn {
+    font-family: var(--comic-font) !important;
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+    border-radius: 0 !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.comic-style .action-btn:hover,
+.comic-style .header-btn:hover {
+    transform: translate(5px, 5px) !important;
+    box-shadow: none !important;
+}
+
+.comic-style .input-group input {
+    border: var(--comic-border);
+    border-radius: 0 !important;
+}
+
+.comic-style .modal-content {
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+    border-radius: 0 !important;
+}
+
+.comic-style .history-item {
+    border: var(--comic-border);
+    border-radius: 0 !important;
+}
+
+.comic-style .tab-btn {
+    font-family: var(--comic-font) !important;
+}
+
+.comic-style .drop-zone {
+    border: var(--comic-border);
+    border-radius: 0 !important;
+}
