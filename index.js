@@ -169,24 +169,6 @@ app.post('/shorten', async (req, res) => {
  *       404:
  *         description: Not found.
  */
-app.get('/pinterest', (req, res) => {
-  const extendedConfig = { ...config, appDomain: APP_DOMAIN };
-  res.render('pinterest', { config: extendedConfig });
-});
-
-app.post('/pinterest/search', async (req, res) => {
-    const { query } = req.body;
-    if (!query) {
-        return res.status(400).json({ error: 'Query is required.' });
-    }
-    try {
-        const response = await axios.get(`https://api.ootaizumi.web.id/search/pinterest?query=${query}`);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data from Pinterest API.' });
-    }
-});
-
 app.get('/:code', async (req, res) => {
   const { code } = req.params;
   try {

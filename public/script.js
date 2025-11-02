@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tabToShow.classList.add('active');
     }
 
-    cdnBtn.addEventListener('click', () => switchTab(cdnSection, cdnBtn));
-    shortUrlBtn.addEventListener('click', () => switchTab(shortUrlSection, shortUrlBtn));
+    if (cdnBtn && shortUrlBtn && cdnSection && shortUrlSection) {
+        cdnBtn.addEventListener('click', () => switchTab(cdnSection, cdnBtn));
+        shortUrlBtn.addEventListener('click', () => switchTab(shortUrlSection, shortUrlBtn));
+    }
 
     // --- History Management ---
     const getHistory = () => JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
@@ -112,17 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- CDN Functionality ---
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0]);
-    });
-    fileInput.addEventListener('change', () => {
-        if (fileInput.files.length) handleFileUpload(fileInput.files[0]);
-    });
+    if (dropZone && fileInput && cdnResult) {
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) handleFileUpload(fileInput.files[0]);
+        });
+    }
 
     async function handleFileUpload(file) {
         showLoading(cdnResult);
@@ -145,8 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- ShortURL Functionality ---
-    async function handleShortenUrl() {
-        const longUrl = longUrlInput.value;
+    if (shortenBtn && longUrlInput && customCodeInput && shortUrlResult) {
+        async function handleShortenUrl() {
+            const longUrl = longUrlInput.value;
         const customCode = customCodeInput.value;
         if (!longUrl) {
             showResult(shortUrlResult, 'Please enter a URL.', false);
@@ -173,7 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showResult(shortUrlResult, 'Request failed.', false);
         }
     }
-    shortenBtn.addEventListener('click', handleShortenUrl);
+        shortenBtn.addEventListener('click', handleShortenUrl);
+    }
 
     // --- Donation Functionality ---
     const startTimer = () => {
@@ -251,84 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Initial Load ---
-    renderHistory(historyLimit);
-
-    // --- Pinterest Search Functionality ---
-    const pinterestSearchBtn = document.getElementById('pinterest-search-btn');
-    const pinterestQueryInput = document.getElementById('pinterest-query');
-    const pinterestResult = document.getElementById('pinterest-result');
-
-    if (pinterestSearchBtn && pinterestQueryInput && pinterestResult) {
-        async function handlePinterestSearch() {
-            const query = pinterestQueryInput.value;
-            if (!query) {
-                showResult(pinterestResult, 'Please enter a search query.', false);
-                return;
-            }
-            showLoading(pinterestResult);
-
-            try {
-                const response = await fetch('/pinterest/search', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query }),
-                });
-                const data = await response.json();
-
-                if (response.ok && data.status && data.result && data.result.pins) {
-                    renderPinterestResults(data.result.pins);
-                } else {
-                    showResult(pinterestResult, `Error: ${data.error || 'No results found.'}`, false);
-                }
-            } catch (error) {
-                showResult(pinterestResult, 'Search request failed.', false);
-            }
-        }
-
-        function renderPinterestResults(pins) {
-            pinterestResult.innerHTML = '';
-            pinterestResult.classList.add('visible');
-            const grid = document.createElement('div');
-            grid.className = 'pinterest-grid';
-
-            if (pins.length === 0) {
-                pinterestResult.innerHTML = '<p>No results found for your query.</p>';
-                return;
-            }
-
-            pins.forEach(pin => {
-                const item = document.createElement('div');
-                item.className = 'pinterest-item';
-
-                const img = document.createElement('img');
-                img.src = pin.media.images.large.url;
-                img.alt = pin.title || 'Pinterest Image';
-
-                const overlay = document.createElement('div');
-                overlay.className = 'pinterest-item-overlay';
-
-                const copyButton = document.createElement('button');
-                copyButton.className = 'copy-url-btn';
-                copyButton.innerHTML = '<span>Copy URL</span>';
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText(pin.media.images.orig.url);
-                    copyButton.innerHTML = '<span>Copied!</span>';
-                    setTimeout(() => { copyButton.innerHTML = '<span>Copy URL</span>'; }, 1500);
-                };
-
-                overlay.appendChild(copyButton);
-                item.appendChild(img);
-                item.appendChild(overlay);
-                grid.appendChild(item);
-            });
-            pinterestResult.appendChild(grid);
-        }
-
-        pinterestSearchBtn.addEventListener('click', handlePinterestSearch);
-
-        pinterestQueryInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                handlePinterestSearch();
+    if (historyList && historyMore && historySection) {
+        renderHistory(historyLimit);
+    }
+    if (donateBtn && donationAmountInput && qrisModal && modalCloseBtn && qrisImage && qrisLoader && qrisAmount && qrisTimer && qrisDownloadBtn) {
+        donateBtn.addEventListener('click', handleDonation);
+        modalCloseBtn.addEventListener('click', hideModal);
+        qrisModal.addEventListener('click', (e) => {
+            if (e.target === qrisModal) {
+                hideModal();
             }
         });
     }
